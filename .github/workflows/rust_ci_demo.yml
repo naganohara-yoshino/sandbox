@@ -1,41 +1,48 @@
-name: Rust build demo
-on: [push]
+name: Release Rust Binaries
+
+on:
+  push:
+    tags:
+      - "v*"
+
 jobs:
   release:
-    name: Release - ${{ matrix.platform.os-name }}
+    name: Release - ${{ matrix.platform.os_name }}
     strategy:
+      fail-fast: false
       matrix:
         platform:
-          - os-name: FreeBSD-x86_64
-            runs-on: ubuntu-24.04
+          - os_name: FreeBSD-x86_64
+            os: ubuntu-24.04
             target: x86_64-unknown-freebsd
 
-          - os-name: Linux-x86_64
-            runs-on: ubuntu-24.04
+          - os_name: Linux-x86_64
+            os: ubuntu-24.04
             target: x86_64-unknown-linux-musl
 
-          - os-name: Linux-aarch64
-            runs-on: ubuntu-24.04
+          - os_name: Linux-aarch64
+            os: ubuntu-24.04
             target: aarch64-unknown-linux-musl
 
-          - os-name: Linux-riscv64
-            runs-on: ubuntu-24.04
+          - os_name: Linux-riscv64
+            os: ubuntu-24.04
             target: riscv64gc-unknown-linux-gnu
 
-          - os-name: Windows-x86_64
-            runs-on: windows-latest
+          - os_name: Windows-x86_64
+            os: windows-latest
             target: x86_64-pc-windows-msvc
 
-          - os-name: macOS-x86_64
-            runs-on: macOS-latest
+          - os_name: macOS-x86_64
+            os: macos-latest
             target: x86_64-apple-darwin
 
-          # more targets here ...
+    runs-on: ${{ matrix.platform.os }}
 
-    runs-on: ${{ matrix.platform.runs-on }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Build binary for target
       - name: Build binary
         uses: houseabsolute/actions-rust-cross@v1
         with:
@@ -43,8 +50,12 @@ jobs:
           target: ${{ matrix.platform.target }}
           args: "--locked --release"
           strip: true
+
+      # Release packaging + GitHub release upload
       - name: Publish artifacts and release
         uses: houseabsolute/actions-rust-release@v0
         with:
-          executable-name: ubi
+          executable-name: sandbox           # ← 如果你的可执行文件叫别的，请改这里！
           target: ${{ matrix.platform.target }}
+          release-tag-prefix: "v"
+          changes-file: "Changes.md"      # 空则不使用 changes
