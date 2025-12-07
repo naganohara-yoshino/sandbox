@@ -1,6 +1,6 @@
 name: Release Rust Binaries
 
-run-name: Building ${{}}
+run-name: Building ${{github.ref}}
 
 on:
   push:
