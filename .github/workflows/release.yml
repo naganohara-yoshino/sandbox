@@ -1,5 +1,7 @@
 name: Release Rust Binaries
 
+run-name: Building ${{}}
+
 on:
   push:
     tags:
