@@ -4,7 +4,6 @@ fn main() {
     untyped_example();
 }
 
-
 fn untyped_example() -> Result<()> {
     // Some JSON input data as a &str. Maybe this comes from the user.
     let data = r#"
