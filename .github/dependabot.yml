@@ -10,14 +10,9 @@ updates:
     # Check the npm registry for updates every day (weekdays)
     schedule:
       interval: "weekly"
-
-  # Enable version updates for Docker
-  - package-ecosystem: "docker"
-    # Look for a `Dockerfile` in the `root` directory
-    directory: "/"
-    # Check for updates once a week
-    schedule:
-      interval: "weekly"
+    commit-message:
+      prefix: chore(deps):
+    labels: [dependencies, internal]
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -25,3 +20,6 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: chore(deps):
+    labels: [dependencies, internal]
