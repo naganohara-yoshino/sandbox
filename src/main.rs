@@ -1,7 +1,7 @@
 use serde_json::{Result, Value};
 
 fn main() {
-    untyped_example();
+    let _ = untyped_example();
 }
 
 fn untyped_example() -> Result<()> {
