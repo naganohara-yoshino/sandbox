@@ -58,7 +58,7 @@ jobs:
 
       # Release packaging + GitHub release upload
       - name: Publish artifacts and release
-        uses: houseabsolute/actions-rust-release@v0
+        uses: houseabsolute/actions-rust-release@v1
         with:
           executable-name: sandbox           # ← 如果你的可执行文件叫别的，请改这里！
           target: ${{ matrix.platform.target }}
